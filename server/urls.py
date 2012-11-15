@@ -1,5 +1,7 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import *
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+import settings
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -19,3 +21,11 @@ urlpatterns = patterns('',
     (r'^api/bt_devices/$', 'web_app.views.btDevices'),
     (r'^api/bt_activity/$', 'web_app.views.btActivity'),
 )
+
+urlpatterns += patterns('',
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT }),
+    )
+
+
+
+urlpatterns += staticfiles_urlpatterns()

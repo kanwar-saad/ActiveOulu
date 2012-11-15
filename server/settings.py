@@ -1,5 +1,7 @@
 # Django settings for activeoulu project.
 
+import os, sys
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -8,6 +10,13 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
+WEB_SERVER_URL = 'http://192.168.137.101'
+
+ROOTDIR = os.path.abspath(os.path.dirname(__file__))
+ROOTDIRSTD = ROOTDIR.replace("\\","/")
+DIRS = ROOTDIRSTD.split('/')
+WEB_ROOT  = '/'.join(DIRS[0:-1]) + '/'
 
 DATABASES = {
     'default': {
@@ -58,11 +67,11 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = WEB_ROOT + 'server/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = WEB_SERVER_URL + 'static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -124,6 +133,15 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'web_app'
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+    )
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
