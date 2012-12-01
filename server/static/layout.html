@@ -17,23 +17,32 @@
 	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
 	<script src="http://cubiq.org/dropbox/iscroll/iscroll.js?v3.7.1"></script>
 	<script src="https://github.com/yappo/javascript-jquery.mobile.iscroll/raw/master/jquery.mobile.iscroll.js"></script>
+	<!--<link rel="stylesheet" href="/static/icons/jqm-icon-pack-2.1.2-fa.css" />-->
 <script>
 
-	$(document).delegate('#main', 'load', function () {
+	//$(document).delegate('#main', 'load', function () {
+    function resize(){
     		var the_height = ($(window).height() - $(window).find('[data-role="header"]').outerHeight(true) - $(window).find('[data-role="footer"]').outerHeight(true));
 		//$("#activity_logo").height($("#header").outerHeight(true));
 		$("#aul_logo").height($("#foot").outerHeight(true));
 		$("#oulu_uni_logo").height($("#foot").outerHeight(true));
+		$("#philips_logo").height($("#foot").outerHeight(true));
+		$("#valopaa_logo").height($("#foot").outerHeight(true));
     		$("#content").height(the_height);
-	})
+	//})
+    }
 
 	$(document).ready(function(){
-	$(window).resize(function() {
-    		var the_height = ($(window).height() - $("#header").outerHeight(true) - $("#foot").outerHeight(true));
+        //resize();
+	    $(window).resize(function() {
+            //resize();
+    	//var the_height = ($(window).height() - $("#header").outerHeight(true) - $("#foot").outerHeight(true));
 		//$("#activity_logo").height($("#header").outerHeight(true));
-		$("#aul_logo").height($("#foot").outerHeight(true));
-		$("#oulu_uni_logo").height($("#foot").outerHeight(true));
-    		$("#content").height(the_height);
+		//$("#aul_logo").height($("#foot").outerHeight(true));
+		//$("#oulu_uni_logo").height($("#foot").outerHeight(true));
+		//$("#philips_logo").height($("#foot").outerHeight(true));
+		//$("#valopaa_logo").height($("#foot").outerHeight(true));
+    	//	$("#content").height(the_height);
 		
 	});
 
@@ -47,13 +56,81 @@
 <body>
 <div data-role="page" id="main">
 
-	<div id="header" data-role="header" style="border: 0; padding: 0; margin: 0; height: 15%">
+	<div id="header" data-role="header" style="border: 0; padding: 0; margin: 0; height: 40%">
         <!--	<svg src="/static/header_activity.svg" type="image/svg+xml" style="width: 100%; border: 0; padding: 0; margin: 0;"></object>	-->
- 	<img id="activity_logo" src="/static/img/header_activity.svg" style="width: 100%; height:15%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto" >
+ 	<img id="activity_logo" src="/static/img/header_activity.svg" style="width: 100%; height:22%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto" >
 	</div><!-- /header -->
+	<div id="content" data-role="content" style="min-height: 70%; height: 70%; border: 0; padding: 0; margin: 0; overflow: hidden"> 
+	<div class="ui-body-a ui-body" style="border: 0; padding: 0; margin: 0">
+	<div data-role="navbar" data-iconpos="left" style="border: 0; padding: 0; margin: 0">
+		<ul>
+			<li style="border: 0; padding: 0; margin: 0"><a href="#main" data-icon="home">Home</a></li>
+			<li style="border: 0; padding: 0; margin: 0"><a href="#chart-page" data-icon="home" class="ui-btn-active">Charts</a></li>
+			<li style="border: 0; padding: 0; margin: 0"><a href="#" data-icon="home">Feedback</a></li>
+		</ul>
+	</div><!-- /navbar -->
+	</div><!-- /ui-body -->
+
+	 	<iframe iframeborder=0 src="/static/map.html" style="height: 100%; width: 100%; border: 0; padding: 0; margin: 0"></iframe>	
+    </div>
+    		<!--<div id="map_canvas" style="height: 50%; width: 100%;"></div>-->
+		<!--div id="gallPetersMap" style="width: 100px; height: 200px;"></div: This is for the google map-->
+		<!--	<a href="questionaire.html" data-role="button" data-theme="a" data-inline="true" data-ajax="false">Questionaire</a> -->
+	
+	<!-- <div id="foot" data-role="footer" data-position="fixed" data-id="persistent_footer" data-tap-toggle="false" style="height: 10%"> -->
+<!--
+	<div id="foot" style="height: 10%; width: 100%">
+	<div class="ui-grid-c" style="border: 0; padding: 0; margin: 0;">
+		<div class="ui-block-a" style="border: 0; padding: 0; margin: 0;">
+			<img id="aul_logo" src="/static/img/AUL_logo.svg" style="width: 100%; height: 10%;border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+		</div>
+		<div class="ui-block-b"style="border: 0; padding: 0; margin: 0;">
+			<img id="oulu_uni_logo" src="/static/img/Oulu_university.svg" style="width: 100%; height:10%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+		</div>
+		<div class="ui-block-c"style="border: 0; padding: 0; margin: 0;">
+			<img id="philips_logo" src="/static/img/philips.svg" style="width: 100%; height:10%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+		</div>	
+		<div class="ui-block-d"style="border: 0; padding: 0; margin: 0;">
+			<img id="valopaa_logo" src="/static/img/valopaa.svg" style="width: 100%; height:10%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+		</div>
+
+	</div>
+-->
+<!--
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#" data-icon="grid">Summary</a></li>
+				<li><a href="#" data-icon="star" class="ui-btn-active">Favs</a></li>
+				<li><a href="#" data-icon="gear">Setup</a></li>
+			</ul>
+		</div>
+-->
+	</div><!-- /footer -->
+	
+	</div><!-- /content -->
+</div><!-- /page -->
+
+
+
+
+<div data-role="page" id="chart-page">
+
+	<div id="header" data-role="header" style="border: 0; padding: 0; margin: 0; height: 40%">
+        <!--	<svg src="/static/header_activity.svg" type="image/svg+xml" style="width: 100%; border: 0; padding: 0; margin: 0;"></object>	-->
+ 	<img id="activity_logo" src="/static/img/header_activity.svg" style="width: 100%; height:22%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto" >
+	</div><!-- /header -->
+	<div class="ui-body-a ui-body" style="border: 0; padding: 0; margin: 0">
+	<div data-role="navbar" data-iconpos="left">
+		<ul>
+			<li><a href="#main" data-icon="fahome">Home</a></li>
+			<li><a href="#chart-page" data-icon="signal" class="ui-btn-active">Charts</a></li>
+			<li><a href="#" data-icon="edit">Feedback</a></li>
+		</ul>
+	</div><!-- /navbar -->
+	</div><!-- /ui-body -->
 
 	<div id="content" data-role="content" style="min-height: 70%; height: 70%; border: 0; padding: 0; margin: 0; overflow: hidden">
-	 	<iframe iframeborder=0 src="/static/map.html" style="height: 100%; width: 100%; border: 0; padding: 0; margin: 0"></iframe>	
+	 	<iframe iframeborder=0 src="/static/charts.html" style="height: 100%; width: 100%; border: 0; padding: 0; margin: 0"></iframe>	
     		<!--<div id="map_canvas" style="height: 50%; width: 100%;"></div>-->
 		<!--div id="gallPetersMap" style="width: 100px; height: 200px;"></div: This is for the google map-->
 		<!--	<a href="questionaire.html" data-role="button" data-theme="a" data-inline="true" data-ajax="false">Questionaire</a> -->
@@ -68,8 +145,13 @@
 		<div class="ui-block-b"style="border: 0; padding: 0; margin: 0;">
 			<img id="oulu_uni_logo" src="/static/img/Oulu_university.svg" style="width: 100%; height:50%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
 		</div>
-		<div class="ui-block-c" style="border: 0; padding: 0; margin: 0;">Block C</div>
-		<div class="ui-block-d" style="border: 0; padding: 0; margin: 0;">Block D</div>
+		<div class="ui-block-c"style="border: 0; padding: 0; margin: 0;">
+			<img id="philips_logo" src="/static/img/philips.svg" style="width: 100%; height:50%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+		</div>	
+		<div class="ui-block-d"style="border: 0; padding: 0; margin: 0;">
+			<img id="valopaa_logo" src="/static/img/valopaa.svg" style="width: 100%; height:50%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+		</div>
+
 	</div><!-- /grid-b -->
 
 <!--
@@ -82,8 +164,7 @@
 		</div>
 -->
 	</div><!-- /footer -->
-	
-</div><!-- /page -->
+</div>
 
 </body>
 </html>

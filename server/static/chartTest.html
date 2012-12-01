@@ -1,0 +1,194 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
+    <title> 
+      Google Visualization API 
+    </title> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">  
+        <title>Active Oulu</title> 
+        <style> 
+                body,html{ 
+                padding:0; 
+                margin:0; 
+                overflow:hidden; 
+                } 
+        </style> 
+    
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" /> 
+        <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script> 
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script> 
+    <script type="text/javascript"> 
+      google.load('visualization', '1', {packages: ['corechart']}); 
+    </script> 
+    <script type="text/javascript"> 
+       
+        var data; 
+        var ac; 
+        var h, w; 
+        var time;
+        var id;
+        var step;
+        var devices; 
+
+         function getData(id,time) {
+            //alert(id + " " + time);
+            if (time=="1d"){step="2h";}
+            else if(time=="1w"){step="1d";}
+            else if(time=="1m"){step="5d";}
+            else if(time=="6m"){step="1m";}
+            else if(time=="1y"){step="1m";}
+            //alert(id + " " + time + " " + step);
+            url="/api/bt_activity_history/?id=" + id + "&t=" + time + "&step=" + step;
+            var rawData = (function () {
+                var rawData = null;
+                $.ajax({
+                    'async': false,
+                    'global': false,
+                    'url': url,
+                    'dataType': "json",
+                    'success': function (data) {
+                        rawData = data;
+                    }
+                });
+                //alert(rawData.history.length);
+                return rawData;
+                })();
+                
+                var dataTable = new Array();
+                var dataElement = '';
+                for (var i = 0; i < rawData.history.length; i++) {
+                    dataTable[i] = new Array(2);
+                    dataTable[i][0] = rawData.history[i].label;
+                    dataTable[i][1] = rawData.history[i].value;
+                    //dataTable[dataTable.length] = dataElement;
+                //alert("hello");
+                };
+                initChartData(dataTable);
+                drawChart();
+           // return rawData;         
+         };
+ 
+        
+        
+        function initChartData(dataTable) { 
+
+        //$.getJSON( url , function(json) {
+        //var dataTable = new google.visualization.DataTable(json);
+        //alert("Hello"); 
+        //}); 
+
+ 
+        h = $("#chart").width(true) * 0.6; 
+        w = $("#chart").height(true) ; 
+        // Some raw data (not necessarily accurate) 
+        data = google.visualization.arrayToDataTable(dataTable);
+          //[ 
+          //['Month',   'Bolivia'], 
+          //['2004/05',    165], 
+          //['2005/06',    135], 
+          //['2006/07',    157], 
+          //['2007/08',    139], 
+          //['2008/09',    136] 
+        //]); 
+       
+        // Create and draw the visualization. 
+        ac = new google.visualization.AreaChart(document.getElementById('visualization')); 
+        } 
+ 
+        function drawChart(){ 
+         
+                ac.draw(data, { 
+                  title : 'Activity Chart', 
+                  isStacked: true, 
+                  legend: {position: 'none'}, 
+                  chartArea: {width: "80%"}, 
+                  vAxis: {title: "Users"}, 
+                  hAxis: {title: "Time"} 
+                }); 
+        } 
+         
+        function initAndDraw(){
+                getData(devices.devices[0].id,'1d');
+        } 
+       
+        $(window).resize(function() { 
+                w = $("#chart").width(true); 
+                h = $("#chart").height(true); 
+                drawChart(); 
+                } 
+        );       
+      google.setOnLoadCallback(initAndDraw); 
+    </script> 
+    <script type="text/javascript">
+        var devices;
+        var activity;
+        var id="all";  //need to modify according to call request and feedback
+        //url;          
+            
+            $(document).ready(function()
+            {
+            var dict1 = (function () {
+                var dict1 = null;
+                $.ajax({
+                    'async': false,
+                    'global': false,
+                    'url': "/api/bt_devices",
+                    'dataType': "json",
+                    'success': function (data) {
+                        dict1 = data;
+                    }
+                });
+                return dict1;
+            })();
+            devices = dict1;
+            var option = '';
+               for (var i = 0; i < dict1.devices.length; i++) {
+                   option += '<option value="' + dict1.devices[i].id +'">' + dict1.devices[i].name + '</option>';
+                    $("#Doptions").append(option);
+                };
+            
+
+            $('#Doptions').change(function() {
+            //var time="1d";
+            id = $('#Doptions :selected').val();
+            //alert(id + "  " + time);
+            getData(id,time);
+            });          
+
+            $('#timePeriod').change(function() {            
+            //var step="2h";
+            time = $('#timePeriod :selected').val();
+            //alert(id + "  " + time);
+            getData(id,time);
+            });         
+            });
+   
+    </script>
+    
+    <script type="text/javascript">
+    
+    
+    </script>
+
+  </head> 
+  <body style="font-family: Arial;border: 0 none;"> 
+    <h1 id="h">test</h1>
+            <label for="Device" class="select">Device:</label>
+            <select name="Doptions" id="Doptions"></select>
+            
+            <label for="Time-Period" class="select">Time Period:</label>
+            <select name="timePeriod" id="timePeriod">
+                <option value="1d">One Day</option>
+                <option value="1w">One Week</option>
+                <option value="1m">One Month</option>
+                <option value="6m">Six Month</option>
+                <option value="1y">One Year</option>
+            </select>
+            
+            <div id="visualization" style="height: 100%; width: 100%"></div> 
+  </body> 
+</html> 
+

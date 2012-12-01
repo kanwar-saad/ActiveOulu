@@ -1,0 +1,88 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Active Oulu</title>
+	<style>
+		body,html{
+		padding:0;
+		margin:0;
+		overflow:hidden;
+		}
+	</style>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<script src="http://cubiq.org/dropbox/iscroll/iscroll.js?v3.7.1"></script>
+	<script src="https://github.com/yappo/javascript-jquery.mobile.iscroll/raw/master/jquery.mobile.iscroll.js"></script>
+<script>
+
+    function resize(){
+        var content_height = ($("#foot").offset().top - $("#content_iframe").offset().top);
+        $("#content_iframe").height(content_height);
+    }
+
+	$(document).ready(function(){
+        resize();
+	    $(window).resize(function() {
+            resize();
+	});
+
+});
+</script>
+
+</head> 
+
+<body>
+<div data-role="page" id="main">
+
+	<div id="header" data-role="header" style="border: 0; padding: 0; margin: 0; height: 100%">
+ 	        <img id="activity_logo" src="/static/img/header_activity.svg" style="width: 100%; height:10%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto" >
+
+	</div><!-- /header -->
+	
+
+    <div id="content" data-role="content" style="min-height: 100%; height: 100%; border: 0; padding: 0; margin: 0; overflow: hidden"> 
+    <!--    <div class="ui-body-a ui-body" style="border: 0; padding: 0; margin: 0"> -->
+            <div data-role="navbar" data-iconpos="left" style="border: 0; padding: 0; margin: 0">
+                <ul>
+                    <li id="nav-home" style="border: 0; padding: 0; margin: 0"><a href="/static/map.html" target="content_iframe" data-icon="star" data-prefetch>Home</a></li>
+                    <li id="nav-chart" style="border: 0; padding: 0; margin: 0"><a href="/static/charts.html" target="content_iframe" data-icon="star" class="ui-btn-active" data-prefetch>Charts</a></li>
+                    <li id="nav-feedback" style="border: 0; padding: 0; margin: 0"><a href="#"  target="content_iframe" gata-icon="star" data-prefetch>Feedback</a></li>
+                </ul>
+            </div><!-- /navbar -->
+      <!--  </div> -->
+        <div style="height: 100%; width: 100%">
+	 	    <iframe id="content_iframe" iframeborder=0 src="/static/map.html" style="height: 80%; width: 100%; border: 0; padding: 0; margin: 0"></iframe>	
+        </div>
+
+	</div><!-- /content -->
+
+
+	<div id="foot" data-role="footer" data-position="fixed" data-id="persistent_footer" data-tap-toggle="false" style="height: 10%">
+            <div class="ui-grid-c" style="border: 0; padding: 0; margin: 0;">
+                <div class="ui-block-a" style="border: 0; padding: 0; margin: 0;">
+                    <img id="aul_logo" src="/static/img/AUL_logo.svg" style="width: 100%; height: 100%;border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+                </div>
+                <div class="ui-block-b"style="border: 0; padding: 0; margin: 0;">
+                    <img id="oulu_uni_logo" src="/static/img/Oulu_university.svg" style="width: 100%; height:100%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+                </div>
+                <div class="ui-block-c"style="border: 0; padding: 0; margin: 0;">
+                    <img id="philips_logo" src="/static/img/philips.svg" style="width: 100%; height:100%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+                </div>	
+                <div class="ui-block-d"style="border: 0; padding: 0; margin: 0;">
+                    <img id="valopaa_logo" src="/static/img/valopaa.svg" style="width: 100%; height:100%; border: 0; padding: 0; margin: 0; margin-left: auto; margin-right: auto"></img>
+                </div>
+
+            </div>
+    </div>
+
+
+</div><!-- /page -->
+
+
+
+</body>
+</html>

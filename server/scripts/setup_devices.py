@@ -12,7 +12,7 @@ devices = db['web_app_btdevice']
 # Clear previous device data before adding new one
 devices.drop()
 # Read CSV file for device data
-cr = csv.reader(open("devices.csv","rb"))
+cr = csv.reader(open("btap.csv","rb"))
 for dev in cr:
     dev_id = dev[1]
     loc_lat = dev[4]
@@ -30,6 +30,7 @@ for dev in cr:
         dev_id = int(dev_id)
         
         device = {"devID" : dev_id, "scanTime" : datetime.utcnow() , "devName" : name, "devLocLat" : loc_lat, "devLocLong" : loc_long}
+        print device
         devices.insert(device)
 
 

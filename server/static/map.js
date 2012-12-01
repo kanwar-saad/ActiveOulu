@@ -78,7 +78,7 @@ function initialize()
 	heatmap = new google.maps.visualization.HeatmapLayer();
 	heatmap.setOptions({radius:20});
 	reload_heat_layer();
-	//setInterval(reload_heat_layer, 3000);
+	setInterval(reload_heat_layer, 180000);
 }
 
 
