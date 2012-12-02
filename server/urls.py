@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'web_app.views.index'),
     url(r'^salesforce/(?P<tenantName>.*)/?.*$', 'web_app.views.outbound_message_handler'),
     (r'^btscan/$', 'web_app.views.btScan'),
     (r'^api/bt_devices/$', 'web_app.views.btDevices'),

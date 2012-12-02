@@ -4,31 +4,73 @@ from time import gmtime, strftime
 from web_app.models import *
 import json, requests
 from django.http import *
-import uuid
+import uuid, time
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import *
+from django.template import RequestContext, loader
+import Queue
+import threading
+
+
+
+class static_class:
+    queue = Queue.Queue()
+    tx_thread = None 
+          
+class TxThread(threading.Thread):
+    def __init__(self, queue):
+        threading.Thread.__init__(self)
+        self.queue = queue
+  
+    def run(self):
+        while True:
+            #grabs host from queue
+            msg = self.queue.get()
+    
+            #process message here
+            print "Sending Message = ", msg
+             
+            #signals to queue job is done
+            self.queue.task_done()
 
 
 
 
-resp = '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Body><notifications xmlns="http://soap.sforce.com/2005/09/outbound"><Ack>true</Ack></notifications></soapenv:Body></soapenv:Envelope>'
+#Fill Queue for socket thread to send message to PMB 
+def tx_msg_to_worker(msg):
+    # If thread is not there then create it
+    s = static_class()
+    print s.tx_thread
+    if not s.tx_thread:
+        s.tx_thread = TxThread(s.queue)
+        s.tx_thread.setDaemon(True)
+        #s.tx_thread.start()
+        #time.sleep(1)
+        #print "Creating Socket Thread"
+    
+    #Fill Queue
+    print "Queue Size = ", s.queue.qsize()
+    s.queue.put(msg) 
+    print "Sending Message : ", msg
 
-
-@csrf_exempt
-def outbound_message_handler(request, tenantName):
-
-	msg = request.read()
-	print msg
-
-	return HttpResponse(resp)	
-
-
-
-
-
-
-
+# Create message for sending to PMB 
+def create_PMB_msg():
+    time = None
+    device = BTDevice.objects.all()
+    for dev in device:
+        #print dev.scanTime
+        time = dev.scanTime
+        break
+    if not time:
+        return ''
+    else:
+        msg = 'http://admin:testi123@10.20.20.211/trigger/20?var='
+        activity_data = BTActivity.objects.filter(activityTime__exact=time).order_by('devID')
+        for act in activity_data:
+            msg = msg + str(act.activity) + ','
+        msg = msg[0:len(msg)-1]
+        return msg
 
 def btScan(request):
     if (request.method == 'GET'):
@@ -55,6 +97,8 @@ def btScan(request):
                 # Update last scantime field in device info
                 dev.scanTime = curr_timestamp
                 dev.save()
+            msg = create_PMB_msg()
+            if msg : tx_msg_to_worker( create_PMB_msg())
             return HttpResponse(result.text, content_type="text/plain", status=200)
     else:
         result = {}
@@ -166,9 +210,11 @@ def btActivityHistory(request):
                 iter = 0
                 act_list = []
                 while (iter != -1):
-                    max_date = check_date + (step_delta * (iter+1))
-                    min_date = check_date + (step_delta * iter)
-                    print "min_date ", min_date, "max_date ", max_date
+                    max_date = check_date + (step_delta * (iter))
+                    min_date = check_date + (step_delta * (iter-1))
+                    observations = (((max_date - min_date).days * 1440) + ((max_date - min_date).seconds/60))/3
+                    #print observations
+                    #print "min_date ", min_date, "max_date ", max_date
                     
                     if min_date >= now:
                         iter = -1
@@ -176,22 +222,34 @@ def btActivityHistory(request):
                     else:
                         iter = iter + 1
 
-                    activity_data_count = BTActivity.objects.filter(activityTime__gt=min_date, activityTime__lt=max_date, devID=id).count()
-
+                    activity_data = BTActivity.objects.filter(activityTime__gt=min_date, activityTime__lt=max_date, devID=id)
+                    activity_data_count = 0 
+                    if activity_data:
+                        data_count =  activity_data.count()
+                    else:
+                        data_count = 0
+                    for act in activity_data:
+                        activity_data_count += act.activity
+                        print "activities =", act.activity
+                    print activity_data_count
+                    if data_count: 
+                        act_data_count_avg = round(activity_data_count/float(data_count))
+                    else:
+                        act_data_count_avg = 0
                     # Create X-axis format
                     str = ''
-                    print unit, step_unit
+                    #print unit, step_unit
                     if (unit == 'd') and (step_unit == 'h'): str = max_date.strftime("%I:%M/%d")
-                    if (unit == 'd'): str = max_date.strftime("%d/%m")
-                    if (unit == 'w'): str = max_date.strftime("%A")[0:3] + max_date.strftime("/%d") 
-                    if (unit == 'm'): str = max_date.strftime("%B/%d") 
-                    if (unit == 'y'): str = max_date.strftime("%B/%Y")
+                    elif (unit == 'd'): str = max_date.strftime("%d/%m")
+                    elif (unit == 'w'): str = max_date.strftime("%A")[0:3] + max_date.strftime("/%d") 
+                    elif (unit == 'm'): str = max_date.strftime("%B")[0:3] + max_date.strftime("/%d") 
+                    elif (unit == 'y'): str = max_date.strftime("%B")[0:3] + max_date.strftime("/%Y")
                     data_json = {}
                     data_json['label'] = str
-                    data_json['value'] = activity_data_count
+                    data_json['value'] = act_data_count_avg
                     act_list.append(data_json)
                     print str
-                    print activity_data_count
+                    print activity_data_count, act_data_count_avg
                 
                 result['history'] = act_list
                 result_json = json.dumps(result)
@@ -210,6 +268,13 @@ def btActivityHistory(request):
         result['error'] = 'Invalid Request'
         result_json = json.dumps(result)
         return HttpResponse(result_json, content_type='application/json', status=400)
+
+
+
+
+""" Web App front page serving function """
+def index(request):
+    return render_to_response('index.html', context_instance=RequestContext(request))
 
 
 	

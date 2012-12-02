@@ -1,12 +1,11 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/> 
     <title> 
       Google Visualization API 
     </title> 
         <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">  
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">  
         <title>Active Oulu</title> 
         <style> 
                 body,html{ 
@@ -66,8 +65,10 @@
                     //dataTable[dataTable.length] = dataElement;
                 //alert("hello");
                 };
+                //alert(rawData.device_name);
                 initChartData(dataTable);
-                drawChart();
+                x = parseInt(id);
+                drawChart(rawData.device_name);
            // return rawData;         
          };
  
@@ -75,33 +76,18 @@
         
         function initChartData(dataTable) { 
 
-        //$.getJSON( url , function(json) {
-        //var dataTable = new google.visualization.DataTable(json);
-        //alert("Hello"); 
-        //}); 
-
- 
         h = $("#chart").width(true) * 0.6; 
         w = $("#chart").height(true) ; 
-        // Some raw data (not necessarily accurate) 
+        
         data = google.visualization.arrayToDataTable(dataTable);
-          //[ 
-          //['Month',   'Bolivia'], 
-          //['2004/05',    165], 
-          //['2005/06',    135], 
-          //['2006/07',    157], 
-          //['2007/08',    139], 
-          //['2008/09',    136] 
-        //]); 
        
-        // Create and draw the visualization. 
         ac = new google.visualization.AreaChart(document.getElementById('visualization')); 
         } 
  
-        function drawChart(){ 
-         
+        function drawChart(dev_name){ 
+                var title = 'Activity Chart : ' + dev_name;
                 ac.draw(data, { 
-                  title : 'Activity Chart', 
+                  title : title, 
                   isStacked: true, 
                   legend: {position: 'none'}, 
                   chartArea: {width: "80%"}, 
@@ -111,7 +97,7 @@
         } 
          
         function initAndDraw(){
-                getData(devices.devices[0].id,'1d');
+                //getData(devices.devices[0].id,'1d');
         } 
        
         $(window).resize(function() { 
@@ -123,10 +109,8 @@
       google.setOnLoadCallback(initAndDraw); 
     </script> 
     <script type="text/javascript">
-        var devices;
-        var activity;
-        var id="all";  //need to modify according to call request and feedback
-        //url;          
+        //var devices;
+       // var activity;
             
             $(document).ready(function()
             {
@@ -144,22 +128,28 @@
                 return dict1;
             })();
             devices = dict1;
-            var option = '';
+            var option = null;
                for (var i = 0; i < dict1.devices.length; i++) {
-                   option += '<option value="' + dict1.devices[i].id +'">' + dict1.devices[i].name + '</option>';
+                    option = '<option value="' + dict1.devices[i].id +'">' + dict1.devices[i].name + '</option>';
                     $("#Doptions").append(option);
                 };
-            
+                $("#Doptions").val(dict1.devices[18].id); 
+                $("#Doptions").trigger("change");
+                getData(devices.devices[18].id,'1d');
+                //$('#Doptions').val('1806230015');
+                //alert($('#Doptions').prop("selectedIndex"));
 
-            $('#Doptions').change(function() {
+           $('#Doptions').change(function() {
             //var time="1d";
             id = $('#Doptions :selected').val();
+            time = $('#timePeriod :selected').val();
             //alert(id + "  " + time);
             getData(id,time);
             });          
 
             $('#timePeriod').change(function() {            
             //var step="2h";
+            id = $('#Doptions :selected').val();
             time = $('#timePeriod :selected').val();
             //alert(id + "  " + time);
             getData(id,time);
@@ -175,10 +165,18 @@
 
   </head> 
   <body style="font-family: Arial;border: 0 none;"> 
-    <h1 id="h">test</h1>
+        
+  <div class="ui-grid-a">
+     
+     <div class="ui-block-a">
             <label for="Device" class="select">Device:</label>
-            <select name="Doptions" id="Doptions"></select>
-            
+            <select name="Doptions" id="Doptions">
+<!--                <option value="1125100108">BtBox4</option> -->
+            </select>
+   
+     </div>  
+          
+     <div class="ui-block-b">   
             <label for="Time-Period" class="select">Time Period:</label>
             <select name="timePeriod" id="timePeriod">
                 <option value="1d">One Day</option>
@@ -187,8 +185,12 @@
                 <option value="6m">Six Month</option>
                 <option value="1y">One Year</option>
             </select>
-            
+     </div>
+
+  </div>       
             <div id="visualization" style="height: 100%; width: 100%"></div> 
-  </body> 
+    
+    
+    </body> 
 </html> 
 

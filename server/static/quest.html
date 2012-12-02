@@ -1,0 +1,178 @@
+<!DOCTYPE html> 
+<html>
+ 
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Active Oulu</title>
+	<style>
+		body,html{
+		padding:0;
+		margin:0;
+		overflow:hidden;
+		}
+	</style>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<script src="http://cubiq.org/dropbox/iscroll/iscroll.js?v3.7.1"></script>
+	<script src="https://github.com/yappo/javascript-jquery.mobile.iscroll/raw/master/jquery.mobile.iscroll.js"></script>
+
+</head>
+
+<body>
+    <form>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>Question 1 </th></tr>
+            <tr><td>
+            <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+            
+            <input type="checkbox" name="checkbox-1a" id="checkbox-1a" class="custom" />
+            <label for="checkbox-1a">val-1</label>
+            
+            <input type="checkbox" name="checkbox-2a" id="checkbox-2a" class="custom" />
+            <label for="checkbox-2a">val-2</label>
+
+            
+            <input type="checkbox" name="checkbox-3a" id="checkbox-3a" class="custom" />
+            <label for="checkbox-3a">val-3</label>
+
+            
+            <input type="checkbox" name="checkbox-4a" id="checkbox-4a" class="custom" />
+            <label for="checkbox-4a">val-4</label>
+
+            </fieldset>
+            </div> 
+            </td></tr>
+        </table>
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>Question 2 </th></tr>
+            <tr><td>
+            <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+                        
+            <input type="radio" name="radio-choice1-1" id="radio-choice1-1" value="choice-1" checked="checked" />
+            <label for="radio-choice1-1">opt-1</label>
+
+            <input type="radio" name="radio-choice1-1" id="radio-choice1-2" value="choice-2"  />
+            <label for="radio-choice1-2">opt-2</label>
+
+            <input type="radio" name="radio-choice1-1" id="radio-choice1-3" value="choice-3"  />
+            <label for="radio-choice1-3">opt-3</label>
+
+            <input type="radio" name="radio-choice1-1" id="radio-choice1-4" value="choice-4"  />
+            <label for="radio-choice1-4">opt-4</label>
+            </fieldset>
+            </div> 
+            </td></tr>
+        </table>
+    
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>Age Group</th></tr>
+            <tr><td>
+            <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+                        
+            <input type="radio" name="radio-choice2-1" id="radio-choice2-1" value="choice-1" checked="checked" />
+            <label for="radio-choice2-1">Less than 15</label>
+
+            <input type="radio" name="radio-choice2-1" id="radio-choice2-2" value="choice-2"  />
+            <label for="radio-choice2-2">15-20</label>
+
+            <input type="radio" name="radio-choice2-1" id="radio-choice2-3" value="choice-3"  />
+            <label for="radio-choice2-3">21-25</label>
+
+            <input type="radio" name="radio-choice2-1" id="radio-choice2-4" value="choice-4"  />
+            <label for="radio-choice2-4">26-30</label>
+
+            <input type="radio" name="radio-choice2-1" id="radio-choice2-5" value="choice-3"  />
+            <label for="radio-choice2-5">Above 30</label>
+
+            </fieldset>
+            </div> 
+            </td></tr>
+        </table>
+    
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>Did you find this application helpful?</th></tr>
+            <tr><td>
+            <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+                        
+            <input type="radio" name="radio-choice3-1" id="radio-choice3-1" value="choice-1" checked="checked" />
+            <label for="radio-choice3-1">Yes</label>
+
+            <input type="radio" name="radio-choice3-1" id="radio-choice3-2" value="choice-2"  />
+            <label for="radio-choice3-2">No</label>
+
+            </fieldset>
+            </div> 
+            </td></tr>
+        </table>
+    
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>How do you rate this application?</th></tr>
+            <tr><td>
+            <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+                        
+            <input type="radio" name="radio-choice4-1" id="radio-choice4-1" value="choice-1" checked="checked" />
+            <label for="radio-choice4-1">Poor :(</label>
+
+            <input type="radio" name="radio-choice4-1" id="radio-choice4-2" value="choice-2"  />
+            <label for="radio-choice4-2">Good :|</label>
+
+            <input type="radio" name="radio-choice4-1" id="radio-choice4-3" value="choice-3"  />
+            <label for="radio-choice4-3">Very Good :)</label>
+
+            <input type="radio" name="radio-choice4-1" id="radio-choice4-4" value="choice-4"  />
+            <label for="radio-choice4-4">Excellent :O</label>
+
+            </fieldset>
+            </div> 
+            </td></tr>
+        </table>
+    
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>Question 6 </th></tr>
+            <tr><td>
+            <div data-role="fieldcontain"><input type="text" id="name" value="" data-mini="true"/> </div>
+            </td></tr>
+        </table>
+    
+    </div>
+
+    <div>
+        <table style="width: 100%">
+            <tr><th>Comments</th></tr>
+            <tr><td>
+            <div data-role="fieldcontain">
+            <textarea cols="40" rows="8" name="comments" id="comments" data-mini="true"></textarea>
+            </div>
+            </td></tr>
+        </table>
+    
+    </div>
+    </form>
+
+
+</body> 
