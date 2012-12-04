@@ -4,55 +4,13 @@ from time import gmtime, strftime
 from web_app.models import *
 import json, requests
 from django.http import *
-import uuid, time
+import uuid
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import *
 from django.template import RequestContext, loader
-import Queue
-import threading
+from utils import tx_msg_to_worker
 
-
-
-class static_class:
-    queue = Queue.Queue()
-    tx_thread = None 
-          
-class TxThread(threading.Thread):
-    def __init__(self, queue):
-        threading.Thread.__init__(self)
-        self.queue = queue
-  
-    def run(self):
-        while True:
-            #grabs host from queue
-            msg = self.queue.get()
-    
-            #process message here
-            print "Sending Message = ", msg
-             
-            #signals to queue job is done
-            self.queue.task_done()
-
-
-
-
-#Fill Queue for socket thread to send message to PMB 
-def tx_msg_to_worker(msg):
-    # If thread is not there then create it
-    s = static_class()
-    print s.tx_thread
-    if not s.tx_thread:
-        s.tx_thread = TxThread(s.queue)
-        s.tx_thread.setDaemon(True)
-        #s.tx_thread.start()
-        #time.sleep(1)
-        #print "Creating Socket Thread"
-    
-    #Fill Queue
-    print "Queue Size = ", s.queue.qsize()
-    s.queue.put(msg) 
-    print "Sending Message : ", msg
 
 # Create message for sending to PMB 
 def create_PMB_msg():
@@ -197,7 +155,7 @@ def btActivityHistory(request):
 
                 now = datetime.datetime.now()
                 check_date = now - delta
-                print "Check date ", check_date            
+                #print "Check date ", check_date            
             if (not delta or not step_delta):
                 result['error'] = 'Error in Time Bound Calculation'
                 print 'Error in Time Bound Calculation'
@@ -230,8 +188,8 @@ def btActivityHistory(request):
                         data_count = 0
                     for act in activity_data:
                         activity_data_count += act.activity
-                        print "activities =", act.activity
-                    print activity_data_count
+                        #print "activities =", act.activity
+                    #print activity_data_count
                     if data_count: 
                         act_data_count_avg = round(activity_data_count/float(data_count))
                     else:
@@ -248,8 +206,8 @@ def btActivityHistory(request):
                     data_json['label'] = str
                     data_json['value'] = act_data_count_avg
                     act_list.append(data_json)
-                    print str
-                    print activity_data_count, act_data_count_avg
+                    #print str
+                    #print activity_data_count, act_data_count_avg
                 
                 result['history'] = act_list
                 result_json = json.dumps(result)
