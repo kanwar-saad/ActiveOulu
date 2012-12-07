@@ -76,7 +76,14 @@ function initialize()
 	map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 	
 	heatmap = new google.maps.visualization.HeatmapLayer();
-	heatmap.setOptions({radius:20});
+	heatmap.setOptions({
+          radius: 20,
+          gradient: [
+          'rgba(255, 182, 228, 0)',
+          'rgba(255, 182, 228, 2)',
+          'rgba(255, 0, 0, 2)'
+          ]
+          });
 	reload_heat_layer();
 	setInterval(reload_heat_layer, 180000);
 }

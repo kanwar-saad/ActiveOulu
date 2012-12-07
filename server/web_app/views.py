@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import *
 from django.template import RequestContext, loader
 from utils import tx_msg_to_worker
-
+from forms import *
 
 # Create message for sending to PMB 
 def create_PMB_msg():
@@ -42,7 +42,7 @@ def btScan(request):
             for r in result.json['result']: curr_activity.update(r)
             print 'Total records fetched : ' + str(len(curr_activity))
             devices = BTDevice.objects.all()
-            curr_timestamp = datetime.datetime.now()
+            curr_timestamp = datetime.now()
             for dev in devices:
                 users = 0
                 if (curr_activity.get(str(dev.devID),'') != ''):
@@ -56,7 +56,7 @@ def btScan(request):
                 dev.scanTime = curr_timestamp
                 dev.save()
             msg = create_PMB_msg()
-            if msg : tx_msg_to_worker( create_PMB_msg())
+            #if msg : tx_msg_to_worker( create_PMB_msg())
             return HttpResponse(result.text, content_type="text/plain", status=200)
     else:
         result = {}
@@ -153,7 +153,7 @@ def btActivityHistory(request):
                 if (unit == 'm'): delta = timedelta(days=time*30) 
                 if (unit == 'y'): delta = timedelta(days=time*365)
 
-                now = datetime.datetime.now()
+                now = datetime.now()
                 check_date = now - delta
                 #print "Check date ", check_date            
             if (not delta or not step_delta):
@@ -235,4 +235,168 @@ def index(request):
     return render_to_response('index.html', context_instance=RequestContext(request))
 
 
-	
+
+""" feedback results """
+def feedback_results(request):
+    data = ''
+    fb_entries = Feedback.objects.all()
+    for f in fb_entries:
+       data = data + '\r\n' + \
+                        f.q1 + ',' +\
+                        f.q2 + ',' + \
+                        f.q3_city + ',' + \
+                        f.q3_country + ',' + \
+                        f.q4 + ',' + \
+                        f.q5 + ',' + \
+                        f.q5_other + ',' + \
+                        f.q6 + ',' + \
+                        f.q6_title + ',' + \
+                        f.q7.ctime() + ',' + \
+                        f.q8 + ',' + \
+                        f.q9 + ',' + \
+                        f.q10 + ',' + \
+                        f.q11 + ',' + \
+                        f.q11_why + ',' + \
+                        f.q12 + ',' + \
+                        f.q12_how + ',' + \
+                        f.q13 + ',' + \
+                        f.q13_why + ',' + \
+                        f.q14 + ',' + \
+                        f.q14_which + ',' + \
+                        f.q14_how + ',' + \
+                        f.q15 + ',' + \
+                        f.name + ',' + \
+                        f.email + ',' + \
+                        f.datetime.ctime()
+
+    fb_entries = Feedback_fi.objects.all()
+    for f in fb_entries:
+        data = data + '\r\n' + \
+                        f.q1 + ',' +\
+                        f.q2 + ',' + \
+                        f.q3_city + ',' + \
+                        f.q3_country + ',' + \
+                        f.q4 + ',' + \
+                        f.q5 + ',' + \
+                        f.q5_other + ',' + \
+                        f.q6 + ',' + \
+                        f.q6_title + ',' + \
+                        f.q7.ctime() + ',' + \
+                        f.q8 + ',' + \
+                        f.q9 + ',' + \
+                        f.q10 + ',' + \
+                        f.q11 + ',' + \
+                        f.q11_why + ',' + \
+                        f.q12 + ',' + \
+                        f.q12_how + ',' + \
+                        f.q13 + ',' + \
+                        f.q13_why + ',' + \
+                        f.q14 + ',' + \
+                        f.q14_which + ',' + \
+                        f.q14_how + ',' + \
+                        f.q15 + ',' + \
+                        f.name + ',' + \
+                        f.email + ',' + \
+                        f.datetime.ctime()
+                         
+    response = HttpResponse(data, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="feedback_results.csv"'
+    return response
+
+""" Feedback form - english """
+def feedback(request):
+    ctx = {}
+    if request.method == 'POST':
+        
+        form = ctx['form'] = FeedbackForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            f = Feedback()
+            #test_field = form.cleaned_data['test_field']
+            f.q1 = form.cleaned_data['q1']
+            f.q2 = form.cleaned_data['q2']
+            f.q3_city = form.cleaned_data['q3_city']
+            f.q3_country = form.cleaned_data['q3_country']
+            f.q4 = form.cleaned_data['q4']
+            f.q5 = form.cleaned_data['q5']
+            f.q5_other = form.cleaned_data['q5_other']
+            f.q6 = form.cleaned_data['q6']
+            f.q6_title = form.cleaned_data['q6_title']
+            f.q7 = form.cleaned_data['q7']
+            f.q8 = form.cleaned_data['q8']
+            f.q9 = form.cleaned_data['q9']
+            f.q10 = form.cleaned_data['q10']
+            f.q11 = form.cleaned_data['q11']
+            f.q11_why = form.cleaned_data['q11_why']
+            f.q12 = form.cleaned_data['q12']
+            f.q12_how = form.cleaned_data['q12_how']
+            f.q13 = form.cleaned_data['q13']
+            f.q13_why = form.cleaned_data['q13_why']
+            f.q14 = form.cleaned_data['q14']
+            f.q14_which = form.cleaned_data['q14_which']
+            f.q14_how = form.cleaned_data['q14_how']
+            f.q15 = form.cleaned_data['q15']
+            f.name = form.cleaned_data['name']
+            f.email = form.cleaned_data['email']
+            f.datetime = datetime.now()
+            """
+            
+            """
+            print form.cleaned_data
+            f.save()
+            return HttpResponseRedirect('/static/thankyou.html') # Redirect after POST
+        else:
+            print 'form is not valid'
+            ctx['error'] = 'Invalid Form Data'
+    else:
+        ctx['form'] = FeedbackForm() # An unbound form
+   
+    return render_to_response('feedback.html', ctx,  context_instance=RequestContext(request))
+
+
+""" Feedback form - Finnish """
+def feedback_fi(request):
+    ctx = {}
+    if request.method == 'POST':
+        
+        form = ctx['form'] = FeedbackForm_fi(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # Process the data in form.cleaned_data
+            f = Feedback_fi()
+            #test_field = form.cleaned_data['test_field']
+            f.q1 = form.cleaned_data['q1']
+            f.q2 = form.cleaned_data['q2']
+            f.q3_city = form.cleaned_data['q3_city']
+            f.q3_country = form.cleaned_data['q3_country']
+            f.q4 = form.cleaned_data['q4']
+            f.q5 = form.cleaned_data['q5']
+            f.q5_other = form.cleaned_data['q5_other']
+            f.q6 = form.cleaned_data['q6']
+            f.q6_title = form.cleaned_data['q6_title']
+            f.q7 = form.cleaned_data['q7']
+            f.q8 = form.cleaned_data['q8']
+            f.q9 = form.cleaned_data['q9']
+            f.q10 = form.cleaned_data['q10']
+            f.q11 = form.cleaned_data['q11']
+            f.q11_why = form.cleaned_data['q11_why']
+            f.q12 = form.cleaned_data['q12']
+            f.q12_how = form.cleaned_data['q12_how']
+            f.q13 = form.cleaned_data['q13']
+            f.q13_why = form.cleaned_data['q13_why']
+            f.q14 = form.cleaned_data['q14']
+            f.q14_which = form.cleaned_data['q14_which']
+            f.q14_how = form.cleaned_data['q14_how']
+            f.q15 = form.cleaned_data['q15']
+            f.name = form.cleaned_data['name']
+            f.email = form.cleaned_data['email']
+            f.datetime = datetime.now()
+            #print form.cleaned_data
+            f.save()
+            return HttpResponseRedirect('/static/thankyou.html') # Redirect after POST
+        else:
+            print 'form is not valid'
+            ctx['error'] = 'Invalid Form Data'
+    else:
+        ctx['form'] = FeedbackForm_fi() # An unbound form
+   
+    return render_to_response('feedback_fi.html', ctx,  context_instance=RequestContext(request))

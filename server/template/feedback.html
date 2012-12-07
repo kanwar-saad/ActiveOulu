@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Active Oulu</title>
+    <style>
+        body,html{
+        padding:0;
+        margin:0;
+        }
+
+    </style>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+     
+</head>
+
+<body>
+
+    {% if error %} <p style="color:#ff0000; text-align:justify; padding-left: 30px; padding-right: 30px">Please answer all mandatory questions marked with (*) asterisk</p> {% endif %}
+    <p style="text-align:justify; padding-left: 30px; padding-right: 30px">Please answer the following questionnaire and leave your contact details to win! We will raffle five pairs of free film tickets. Winners will be notified personally.</p>
+    <h4 style="text-align:justify; padding-left: 30px; padding-right: 30px">All information provided will be handled anonymously and in confidence for research purposes only. No information will be given to any third party.</h4>
+    <p style="text-align:justify; padding-left: 30px; padding-right: 30px">Urban Echoes is a part of the Adaptive Urban Lighting research project, conducted at the University of Oulu in collaboration with the multidisciplinary UBI Metrics research project.</p>
+
+
+    <form action="/feedback" method="post">
+    {% csrf_token %}
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q1">1. Sex* </h3>
+
+            {% for value, text in form.q1.field.choices %}
+                <label for="id_q1_{{ forloop.counter0  }}"><input type="radio" id="id_q1_{{ forloop.counter0  }}" value="{{ value  }}" name="q1" />{{ text  }}</label>
+            {% endfor %}
+
+            </div>
+    </div>
+    
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q2"> 2. Age* </h3>
+
+            {% for value, text in form.q2.field.choices %}
+                <label for="id_q2_{{ forloop.counter0  }}"><input type="radio" id="id_q2_{{ forloop.counter0  }}" value="{{ value  }}" name="q2" />{{ text  }}</label>
+            {% endfor %}
+
+            </div>
+    </div>
+
+    <div>
+            <h3 for="q3">3.   Current place of residence* </h3>
+            
+                <label for="q3_city">City or Municipality*</label>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q3_city }}
+            </div>
+
+
+                <label for="q3_city">Country*</label>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q3_country }}
+            </div>
+        </div>
+
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q4">4.  Have your ever lived in Oulu? </h3>
+           
+            {% for value, text in form.q4.field.choices %}
+                <label for="id_q4_{{ forloop.counter0  }}"><input type="radio" id="id_q4_{{ forloop.counter0  }}" value="{{ value  }}" name="q4" />{{ text  }}</label>
+            {% endfor %}
+
+            </div>
+    </div>
+            
+    <div>
+            <h3 for="q5">5.  Education* </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+                <label for="id_q5_0"><input type="radio" id="id_q5_0" value="a" name="q5" /> Elementary or Middle School</label>
+                <label for="id_q5_1"><input type="radio" id="id_q5_1" value="b" name="q5" /> Upper Secondary School / Vocational School</label>
+                <label for="id_q5_2"><input type="radio" id="id_q5_2" value="c" name="q5" /> c.    Bachelor's Degree / Higher Vocational Degree</label>
+                <label for="id_q5_3"><input type="radio" id="id_q5_3" value="d" name="q5" /> d.   Master's Degree or a Doctorate</label>
+                <label for="id_q5_4"><input type="radio" id="id_q5_4" value="e" name="q5" /> Other, please specify : </label>{{ form.q5_other }}
+            </div>
+    </div>
+
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q6">6. Professional field or discipline* </h3>
+            
+            {% for value, text in form.q6.field.choices %}
+                <label for="id_q6_{{ forloop.counter0  }}"><input type="radio" id="id_q6_{{ forloop.counter0  }}" value="{{ value  }}" name="q6" />{{ text  }}</label>
+            {% endfor %}
+
+            </div>
+            
+
+            <div data-role="fieldcontain" style="width: 100%">
+            <label for="q6_title">Position or title (or 'student')*</label>{{ form.q6_title }}
+            </div>
+
+    </div>
+    
+    <div>
+            <h3 for="q7">7.  At which date and time did you experience lighting in Otto Karhi park? * </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q7  }}
+            </div>
+    </div>
+    
+    <div>
+            <h3 for="q8">8.  Describe in your own words, how the lighting was in the park.* </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q8 }}
+            </div>
+    </div>
+    
+    <div>
+            <h3 for="q9">9.  What kind of atmosphere was there in the park?* </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q9 }}
+            </div>
+    </div>
+    
+    <div>
+            <h3 for="q10">10. Did the lighting change your attitude towards the park?* </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q10 }}
+            </div>
+    </div>
+    
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q11">11. Did the park feel safer now than before? *  (0=No, not at all, 5=Yes, very much) </h3>
+
+            {% for value, text in form.q11.field.choices %}
+                <label for="id_q11_{{ forloop.counter0  }}"><input type="radio" id="id_q11_{{ forloop.counter0  }}" value="{{ value  }}" name="q11" />{{ text  }}</label>
+            {% endfor %}
+            </div>
+
+
+            <div data-role="fieldcontain" style="width: 100%">
+            <label for="q11_why">Why? In which way?*</label>{{ form.q11_why }}
+            </div>
+
+
+    </div>
+
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q12">12. Did the lighting react to the movement of people in the park? * </h3>
+
+            {% for value, text in form.q12.field.choices %}
+                <label for="id_q12_{{ forloop.counter0  }}"><input type="radio" id="id_q12_{{ forloop.counter0  }}" value="{{ value  }}" name="q12" />{{ text  }}</label>
+            {% endfor %}
+            </div>
+
+
+
+            <div data-role="fieldcontain" style="width: 100%">
+            <label for="q12_how">If it did, how did you feel about that?*</label>{{ form.q12_how }}
+            </div>
+
+    </div>
+    
+    <div>
+            <div data-role="fieldcontain" style="width: 100%">
+            <h3 for="q13">13. Did you feel that you could interact with the lighting? *  (0=No, not at all, 5=Yes, very much)</h3>
+            {% for value, text in form.q13.field.choices %}
+                <label for="id_q13_{{ forloop.counter0  }}"><input type="radio" id="id_q13_{{ forloop.counter0  }}" value="{{ value  }}" name="q13" />{{ text  }}</label>
+            {% endfor %}
+            </div>
+
+
+
+            <div data-role="fieldcontain" style="width: 100%">
+            <label for="q13_why">Why? In which way?*</label>{{ form.q13_why }}
+            </div>
+
+    </div>
+    
+    <div>
+            <h3 for="q14a">14(a). Did you use Urban Echoes  mobile service, or did you end up answering to the questionnaire from some other way? *</h3>
+            <div data-role="fieldcontain" style="width: 100%">
+                <label for="id_q14_0"><input type="radio" id="id_q14_0" value="a" name="q14" /> Through Urban Echoes mobile service</label>
+                <label for="id_q14_1"><input type="radio" id="id_q14_1" value="b" name="q14" /> Through other route, which? </label>{{ form.q14_which  }}
+            </div>
+    </div>
+    <div>
+            <h3 for="14b">14(b). If you used, how was the service like? Did you feel that lighting visualized the results of your inquiry? </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q14_how }}
+            </div>
+    </div>
+    
+    <div>
+            <h3 for="q15">15. Is there anything else you would like to say?  </h3>
+            <div data-role="fieldcontain" style="width: 100%">
+            {{ form.q15 }}
+            </div>
+    </div>
+    <p></p>
+    <div>
+            <h3>Your personal details for the raffle (voluntary):</h3>
+
+            <div data-role="fieldcontain" style="width: 100%">
+            <label for="name">Name</label>{{ form.name }}
+            </div>
+
+            <div data-role="fieldcontain" style="width: 100%">
+            <label for="email">Email</label>{{ form.email }}
+            </div>
+
+    </div>
+    <input type="submit" value="Submit" style="width: 100%"/>
+    </form>
+
+
+</body>
