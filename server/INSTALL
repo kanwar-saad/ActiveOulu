@@ -1,0 +1,84 @@
+1. INSTALL MongoDB
+
+    #sudo apt-get install mongodb mongodb-server
+
+2. Install python and other tools
+
+    #sudo apt-get install python build-essential python-dev python-setuptools python-pip
+
+3. INSTALL Django
+
+    #sudo apt-get install Django
+
+4. #install mongodb driver for Django
+  sudo apt-get install mercurial
+    sudo pip install hg+https://bitbucket.org/wkornewald/django-nonrel
+    sudo pip install hg+https://bitbucket.org/wkornewald/djangotoolbox
+    sudo apt-get install git
+    sudo pip install git+https://github.com/django-nonrel/mongodb-engine
+        
+5. Create Mongodb Username
+    #mongo
+    > use admin
+    > db.addUser('admin','admin')
+    > quit()
+
+6. Set mongodb conf for user authentication
+
+    #Restart mongo with auth=true flag in its configuration once the mongo admin
+    #   user is created.
+    sudo vi /etc/mongodb.conf
+    ==> remove '#' at the beginning of "#auth=true" and save the file
+    sudo service mongodb restart
+
+7. Get source code
+    
+    - create account on git hub and install your public key on it.
+
+    #git clone git@github.com:kanwar-saad/ActiveOulu.git
+
+
+8. Set a Cronjob
+
+    #crontab -e
+    and write the following line in it.
+    */3 * * * * curl 'http://127.0.0.1:8080/btscan/?user=activeoulu'
+
+9. Connection settings for Pharos Messaging Buffer
+
+    goto file /ActiveOulu/server/web_app/utils.py
+
+    and set HOST and PORT as the IP and port of PMB 
+
+
+10. Initialize DB with initial data of Bluetooth hotspots.
+    
+    - Create a CSV file with the details of given hotspots in the format as shown in 
+        ActiveOulu/server/scripts/btap.csv
+
+    - Replace this file with ActiveOulu/server/scripts/btap.csv an drun the following script
+
+        ActiveOulu/server/scripts/setup_device.py
+
+11. Start server
+
+    ActiveOulu/server/run.sh
+
+    To run in background
+    #nohup ActiveOulu/server/run.sh &
+
+    Or for better web performance use a webserver like Apache
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+                            

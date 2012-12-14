@@ -11,7 +11,6 @@ from django.db.models import *
 from django.template import RequestContext, loader
 from utils import tx_msg_to_worker
 from forms import *
-
 # Create message for sending to PMB 
 def create_PMB_msg():
     time = None
@@ -39,6 +38,8 @@ def btScan(request):
             api_url = 'http://stats.ubioulu.fi/panoulubt/devices.php?group=1'
             result = requests.get(api_url, headers={'Content-Type': 'application/json'})
             curr_activity = {}
+            if not result.json:
+                return HttpResponse('PanOulu Server not responding', content_type="text/plain", status=200)
             for r in result.json['result']: curr_activity.update(r)
             print 'Total records fetched : ' + str(len(curr_activity))
             devices = BTDevice.objects.all()
