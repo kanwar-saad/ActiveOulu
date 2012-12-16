@@ -35,6 +35,7 @@
          function getData(id,time) {
             //alert(id + " " + time);
             if (time=="1d"){step="2h";}
+            else if(time=="1h"){step="10n";}
             else if(time=="1w"){step="1d";}
             else if(time=="1m"){step="5d";}
             else if(time=="6m"){step="1m";}
@@ -179,7 +180,8 @@
      <div class="ui-block-b">   
             <label for="Time-Period" class="select">Time Period:</label>
             <select name="timePeriod" id="timePeriod">
-                <option value="1d">One Day</option>
+                <option value="1h">One Hour</option>
+                <option value="1d" selected>One Day</option>
                 <option value="1w">One Week</option>
                 <option value="1m">One Month</option>
                 <option value="6m">Six Month</option>

@@ -2,8 +2,7 @@ import os
 import sys
 
 #NOTE: the following path needs to be changed appropriately
-sys.path.append('/home/ec2-user/ActiveOulu/')
-sys.path.append('/home/ec2-user/ActiveOulu/server/')
+sys.path.append('/export/ActiveOulu/')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 

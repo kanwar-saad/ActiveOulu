@@ -144,11 +144,13 @@ def btActivityHistory(request):
             if (not step or not time or not unit or not step_unit):
                 print "Error in parsing input time parameters"
             else:
+                if (step_unit == 'n'): step_delta = timedelta(minutes=step)
                 if (step_unit == 'h'): step_delta = timedelta(hours=step)
                 if (step_unit == 'd'): step_delta = timedelta(days=step)
                 if (step_unit == 'w'): step_delta = timedelta(weeks=step)
                 if (step_unit == 'm'): step_delta = timedelta(days=step*30)
                 
+                if (unit == 'h'): delta = timedelta(hours=time)
                 if (unit == 'd'): delta = timedelta(days=time) 
                 if (unit == 'w'): delta = timedelta(weeks=time) 
                 if (unit == 'm'): delta = timedelta(days=time*30) 
@@ -203,6 +205,7 @@ def btActivityHistory(request):
                     elif (unit == 'w'): str = max_date.strftime("%A")[0:3] + max_date.strftime("/%d") 
                     elif (unit == 'm'): str = max_date.strftime("%B")[0:3] + max_date.strftime("/%d") 
                     elif (unit == 'y'): str = max_date.strftime("%B")[0:3] + max_date.strftime("/%Y")
+                    elif (unit == 'h'): str = max_date.strftime("%H") + max_date.strftime(":%M")
                     data_json = {}
                     data_json['label'] = str
                     data_json['value'] = act_data_count_avg
